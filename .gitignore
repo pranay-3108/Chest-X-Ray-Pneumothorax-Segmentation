@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+
+.venv/
+venv/
+env/
+
+images/
+aligned_dataset/
+scripts/
+outputs/
+masks/
+
+.DS_Store
+Thumbs.db
