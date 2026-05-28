@@ -1,79 +1,119 @@
-# SIIM-ACR Pneumothorax Segmentation
+# Chest X-Ray Pneumothorax Segmentation
 
-Preprocessing and segmentation pipeline for the SIIM-ACR Pneumothorax dataset using PyTorch.
+Student experiment around the SIIM-ACR Pneumothorax Segmentation dataset.
 
-The project focuses mainly on dataset preparation, mask generation, and training pipeline setup for lung collapse segmentation from chest X-ray DICOM images.
+This repository is mainly about the data side of the problem: reading DICOM files, decoding RLE masks, checking alignment, and building a usable image-mask pipeline before model training.
 
+## What This Project Does
 
-# Dataset
+- reads chest X-ray DICOM files
+- decodes pneumothorax masks from run-length encoded labels
+- maps `ImageId` values to the real image files
+- prepares image and mask pairs for segmentation experiments
+- includes small utilities for validation and visualization
 
-SIIM-ACR Pneumothorax Segmentation Dataset
+## Dataset
 
-* 10k+ DICOM chest X-rays
-* RLE encoded masks in CSV format
-* Positive and negative samples
-* Nested DICOM folder structure
+Input dataset:
 
----
+- SIIM-ACR Pneumothorax Segmentation
+- chest X-ray DICOM images
+- CSV file with RLE mask annotations
+- both positive and negative cases
 
-# Pipeline
+This repo currently includes the label CSV structure and the preprocessing scripts used to organize the dataset.
 
-```text
-DICOM Images + CSV Labels
-            ↓
-ImageId ↔ File Mapping
-            ↓
-RLE Mask Decoding
-            ↓
-Aligned Image-Mask Dataset
-            ↓
-PyTorch Dataset Loader
-            ↓
-U-Net Training Pipeline
-```
+## What Was Tested
 
----
+The strongest completed part of this project is preprocessing and mask generation.
 
-# Features
+Completed work:
 
-* RLE mask decoding
-* ImageId to DICOM path mapping
-* Indexed lookup for faster loading
-* Negative sample handling
-* PNG mask generation
-* DICOM preprocessing
-* Segmentation dataset loader
+- RLE decoding
+- image-to-label mapping
+- negative sample handling
+- dataset inspection scripts
+- basic visualization utilities for images and masks
 
----
+Not yet fully completed in public code:
 
-# Project Structure
+- `train.py`
+- `model.py`
+- `eval.py`
+
+So this repo should be read as a segmentation pipeline setup repo, not as a finished benchmarking repo.
+
+## Pipeline
 
 ```text
-build_dataset.py   → dataset preprocessing
-data_loader.py     → PyTorch dataset loader
-utils.py           → RLE encode/decode utilities
-test_rle_decode.py → mask visualization
-train.py           → training pipeline
-model.py           → U-Net model
-eval.py            → evaluation
+DICOM image
+  -> ImageId lookup
+  -> RLE mask decoding
+  -> image/mask pair creation
+  -> dataset loading
+  -> segmentation training experiments
 ```
 
----
+## Project Structure
 
-# Tech Stack
+```text
+build_dataset.py    build aligned image-mask dataset
+data_loader.py      PyTorch dataset loader
+data_analyzer.py    dataset inspection and checks
+utils.py            RLE encode/decode helpers
+test_rle_decode.py  mask visualization checks
+view_result.py      inspect image + mask pairing
+```
 
-* Python
-* PyTorch
-* NumPy
-* Pandas
-* pydicom
-* Matplotlib
+## Tech Stack
 
----
+- Python
+- PyTorch
+- NumPy
+- Pandas
+- pydicom
+- Matplotlib
+- Pillow
 
-# Status
+## Results So Far
 
-* Dataset preprocessing completed
-* Mask alignment validated
-* Training pipeline setup completed
-* Moving to model training and evaluation
+Current progress is strongest on preprocessing correctness rather than final model performance.
+
+Publicly visible results in this repo today:
+
+- DICOM loading works
+- RLE masks can be decoded and visualized
+- image-mask alignment pipeline is in place
+
+Still missing from the public repo:
+
+- final segmentation predictions
+- benchmark metrics such as Dice score / IoU
+- exported visualization screenshots
+
+## Why The Repo Looks Like This
+
+I kept the unfinished parts public instead of pretending the model side was complete.
+
+That means this repository shows real progress on the setup and debugging phase, but it is still incomplete as an end-to-end segmentation project.
+
+## Run
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Example utilities:
+
+```bash
+python test_rle_decode.py
+python data_analyzer.py
+```
+
+## Next Improvements
+
+- add one or two real mask visualization screenshots to the README
+- complete and document the training path
+- report one honest baseline metric once training is stable
