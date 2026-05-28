@@ -85,11 +85,21 @@ Publicly visible results in this repo today:
 - RLE masks can be decoded and visualized
 - image-mask alignment pipeline is in place
 
+### Example Visualization
+
+One validation example from the current preprocessing pipeline:
+
+- left: original chest X-ray
+- middle: decoded pneumothorax mask
+- right: overlay used to visually check alignment
+
+![Mask visualization example](results/mask_overlay_example.png)
+
 Still missing from the public repo:
 
 - final segmentation predictions
 - benchmark metrics such as Dice score / IoU
-- exported visualization screenshots
+- more exported visualization screenshots
 
 ## Why The Repo Looks Like This
 
@@ -114,6 +124,6 @@ python data_analyzer.py
 
 ## Next Improvements
 
-- add one or two real mask visualization screenshots to the README
+- add one or two more real mask visualization screenshots to the README
 - complete and document the training path
 - report one honest baseline metric once training is stable
